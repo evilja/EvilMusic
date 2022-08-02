@@ -11,6 +11,7 @@ pygame.mixer.init()
 runner = evilparser.parser()          # Create a EvilParser Object
 config = runner.getconf("db.eparse")  # EvilParser - Parser db.eparse
 
+eventkey = "90060x"
 
 loop = False
 killthread = False
@@ -18,8 +19,12 @@ def sPlayList(playlist):
     global loop,killthread
     try:
         for music in playlist:
+            if eventkey == "90060x":
+                print("")
             print("Playing: " + config["musicnames"][config["musiclinks"].index(music)])
             print("Queue: " + str(config["musiclinks"].index(music)+1) + "/" + str(len(playlist)))
+            if eventkey == "90060x":
+                print("> ",end="")
             pygame.mixer.music.load(music)
             pygame.mixer.music.play()
             while pygame.mixer.music.get_busy() == True:
@@ -80,9 +85,10 @@ def controlPanel():
 
 
 def listenForEvents():
-    global playlistset,loop
+    global playlistset,loop,eventkey
     try:
         event = input("> ").lower()
+        eventkey = event
     except KeyboardInterrupt:
         exit(1)
     if event == "l":
@@ -96,4 +102,5 @@ def listenForEvents():
         playlistset = False
     if event == "e":
         exit()
+    eventkey = 0
 controlPanel()
