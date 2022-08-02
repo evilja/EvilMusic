@@ -16,20 +16,23 @@ loop = False
 killthread = False
 def sPlayList(playlist):
     global loop,killthread
-    for music in playlist:
-        print("Playing: " + config["musicnames"][config["musiclinks"].index(music)])
-        print("Queue: " + str(config["musiclinks"].index(music)+1) + "/" + str(len(playlist)))
-        pygame.mixer.music.load(music)
-        pygame.mixer.music.play()
-        while pygame.mixer.music.get_busy() == True:
+    try:
+        for music in playlist:
+            print("Playing: " + config["musicnames"][config["musiclinks"].index(music)])
+            print("Queue: " + str(config["musiclinks"].index(music)+1) + "/" + str(len(playlist)))
+            pygame.mixer.music.load(music)
+            pygame.mixer.music.play()
+            while pygame.mixer.music.get_busy() == True:
+                if killthread:
+                    break
+                else:
+                    continue
             if killthread:
                 break
-            else:
-                continue
-        if killthread:
-            break
-    if loop == True and not killthread:
-        sPlayList(playlist)
+        if loop == True and not killthread:
+            sPlayList(playlist)
+    except pygame.error:
+        exit(1)
 playlistset = False
 threads = []
 def controlPanel():
