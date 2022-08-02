@@ -78,7 +78,7 @@ def controlPanel():
             threads.append(threading.Thread(target=sPlayList, args=(playlist,)))
             threads[0].start()
             time.sleep(0.2)
-            print("Stop playlist and reselect musics = R\nTurn On/Off Loop = L\nExit = E")
+            print("Stop playlist and reselect musics = R\n> Turn On/Off Loop = L\n> Exit = E")
         else:
             listenForEvents()
 
